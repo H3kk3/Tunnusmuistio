@@ -8,31 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.view.Menu;
 import android.database.Cursor;
 
 
 import java.sql.SQLException;
 
 public class MainActivityFragment extends Fragment {
-    private ArrayAdapter<String> mIbanmemoAdapter;
+
     private TunnusDbAdapter mDbAdapter;
-    public static final int INSERT_ID = Menu.FIRST;
-    private int mMemoNum = 1;
 
     public MainActivityFragment() {
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,22 +37,20 @@ public class MainActivityFragment extends Fragment {
         try {
             mDbAdapter = new TunnusDbAdapter(MainActivityFragment.this.getActivity());
             mDbAdapter.open();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         Cursor c = mDbAdapter.getAll();
+        String[] from = new String[]{TunnusDbAdapter.COLUMN_NICK};
+        int[] to = new int[]{R.id.list_item_name_iban_pair_textview};
 
-        String[] from = new String[] { TunnusDbAdapter.COLUMN_NICK };
-        int[] to = new int[] { R.id.list_item_name_iban_pair_textview };
-
-        SimpleCursorAdapter listdata = new SimpleCursorAdapter(MainActivityFragment.this.getActivity(), R.layout.list_item_name_iban_pair, c, from, to, 1);
+        final SimpleCursorAdapter listdata = new SimpleCursorAdapter(MainActivityFragment.this.getActivity(), R.layout.list_item_name_iban_pair, c, from, to, 1);
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_friendlist);
         listView.setAdapter(listdata);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor c = ((SimpleCursorAdapter) adapterView.getAdapter()).getCursor();
