@@ -54,9 +54,6 @@ package io.h3kk3.tunnusmuistio.app;
             mContext = context;
         }
 
-        /**
-         * Avataan tietokantayhteys
-         */
         public TunnusDbAdapter open() throws SQLException {
             mDbHelper = new DatabaseHelper(mContext);
             mDb = mDbHelper.getWritableDatabase();
@@ -67,8 +64,6 @@ package io.h3kk3.tunnusmuistio.app;
             mDbHelper.close();
         }
 
-
-
         public long createMemo(String nick, String inumber) {
             ContentValues initialValues = new ContentValues();
             initialValues.put(COLUMN_NICK, nick);
@@ -76,34 +71,9 @@ package io.h3kk3.tunnusmuistio.app;
             return mDb.insert(TABLE_NAME, null, initialValues);
         }
 
-        public boolean deleteMemo(long id) {
-
-            return mDb.delete(TABLE_NAME, COLUMN_ID + "=" + id, null) > 0;
-        }
-
-
         public Cursor getAll() {
-
             return mDb.query(TABLE_NAME, new String[] {COLUMN_ID, COLUMN_NICK,
                     COLUMN_INUMBER}, null, null, null, null, null);
-        }
-
-        public Cursor getOne(long id) throws SQLException {
-
-            Cursor mCursor = mDb.query(true, TABLE_NAME, new String[]
-                            {COLUMN_ID, COLUMN_NICK, COLUMN_INUMBER},
-                    COLUMN_ID + "=" + id, null, null, null, null, null);
-            if (mCursor != null) {
-                mCursor.moveToFirst();
-            }
-            return mCursor;
-        }
-
-        public boolean updateMemo(long id, String nick, String inumber) {
-            ContentValues args = new ContentValues();
-            args.put(COLUMN_NICK, nick);
-            args.put(COLUMN_INUMBER, inumber);
-            return mDb.update(TABLE_NAME, args, COLUMN_ID + "=" + id, null) > 0;
         }
     }
 

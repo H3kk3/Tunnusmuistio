@@ -1,7 +1,6 @@
 package io.h3kk3.tunnusmuistio.app;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.view.Menu;
 import android.database.Cursor;
-import android.widget.Toast;
+
 
 import java.sql.SQLException;
 
